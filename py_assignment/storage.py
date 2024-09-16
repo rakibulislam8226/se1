@@ -27,7 +27,18 @@ class Storage:
         return None
 
     def get_all_tasks(self):
-        return list(self.tasks)
+        """For getting all the tasks from database"""
+        try:
+            task_keys = self.database.keys()
+            # Bulk fetch all the task values corosponding to the keys
+            task_values = self.database.mget(task_keys)
+            # using dictionary unpacking (**)
+            tasks = [
+                Task(**json.loads(task_data)) for task_data in task_values if task_data
+            ]
+            return tasks
+        except Exception as e:
+            print(f"Unexpected error while retriving tasks: {e}")
 
     def clear_all_tasks(self):
         self.tasks = []
