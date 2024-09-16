@@ -2,15 +2,22 @@ from datetime import datetime
 
 
 class Task:
+    """
+    This represent an individual task with necessary attributes as defined.
+    It actually encapsulates the core data of a task. It's makes easier for crud.
+    """
 
-    def __init__(self, title, description):
+    def __init__(self, title, description, completed=False, created_at=None):
         self.title = title
         self.description = description
-        self.completed = False
-        self.created_at = datetime.now().isoformat()
+        self.completed = completed
+        self.created_at = created_at or datetime.now().isoformat()
 
 
 class TaskManager:
+    """
+    This manager class actually reponsible for managing tasks including add, complete, list, report by storage's method.
+    """
 
     def __init__(self, storage):
         self.storage = storage

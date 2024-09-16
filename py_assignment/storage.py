@@ -1,6 +1,8 @@
 import json
 import redis
 
+from task_manager import Task
+
 
 class Storage:
 
@@ -14,15 +16,14 @@ class Storage:
         self.database.set(task.title, task_data)
 
     def update_task(self, updated_task):
-        for i, task in enumerate(self.tasks):
-            if task.title == updated_task.title:
-                self.tasks[i] = updated_task
-                break
+        """Update task also use the save_task method"""
+        self.save_task(updated_task)
 
     def get_task(self, title):
-        for task in self.tasks:
-            if task.title == title:
-                return task
+        """Get the task based on title for complete and others where needed a single task"""
+        if task_title := self.database.get(title):
+            task_dict = json.loads(task_title)
+            return Task(**task_dict)
         return None
 
     def get_all_tasks(self):
