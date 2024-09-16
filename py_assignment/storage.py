@@ -41,4 +41,5 @@ class Storage:
             print(f"Unexpected error while retriving tasks: {e}")
 
     def clear_all_tasks(self):
-        self.tasks = []
+        """To delete all the tasks"""
+        self.database.flushdb()
