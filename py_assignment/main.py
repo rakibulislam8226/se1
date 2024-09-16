@@ -34,11 +34,13 @@ def main():
     if args.command == "add":
         task = manager.add_task(args.title, args.description)
         print(f"Task '{task.title}' added successfully.")
+
     elif args.command == "complete":
         if manager.complete_task(args.title):
             print(f"Task '{args.title}' marked as completed.")
         else:
             print(f"Task '{args.title}' not found.")
+
     elif args.command == "list":
         tasks = manager.list_tasks(include_completed=args.all)
         if tasks:
@@ -47,8 +49,10 @@ def main():
                 print(f"{task.title} - {status}")
         else:
             print("No tasks found.")
+
     elif args.command == "report":
         print(manager.generate_report())
+
     else:
         parser.print_help()
 

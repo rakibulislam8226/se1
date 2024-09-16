@@ -1,3 +1,4 @@
+import json
 import redis
 
 
@@ -8,7 +9,9 @@ class Storage:
         self.database = redis.Redis(host="localhost", port=6379, db=0)
 
     def save_task(self, task):
-        self.tasks.append(task)
+        """Saving task data into database by reading from json and store in db as key=title"""
+        task_data = json.dumps(task.__dict__)
+        self.database.set(task.title, task_data)
 
     def update_task(self, updated_task):
         for i, task in enumerate(self.tasks):
