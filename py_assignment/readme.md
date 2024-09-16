@@ -39,7 +39,7 @@ The application should allow users to do the following:
 To run all the unit tests, use the following command:
 
 ```
-python -m unittest discover tests
+python3 -m unittest discover tests
 ```
 
 ## Your Task

@@ -1,6 +1,7 @@
 import argparse
-from task_manager import TaskManager
+
 from storage import Storage
+from task_manager import TaskManager
 
 
 def main():
@@ -8,8 +9,7 @@ def main():
     manager = TaskManager(storage)
 
     parser = argparse.ArgumentParser(description="Task Management System")
-    subparsers = parser.add_subparsers(dest="command",
-                                       help="Available commands")
+    subparsers = parser.add_subparsers(dest="command", help="Available commands")
 
     # Add task
     add_parser = subparsers.add_parser("add", help="Add a new task")
@@ -17,15 +17,14 @@ def main():
     add_parser.add_argument("description", help="Task description")
 
     # Complete task
-    complete_parser = subparsers.add_parser("complete",
-                                            help="Mark a task as completed")
+    complete_parser = subparsers.add_parser("complete", help="Mark a task as completed")
     complete_parser.add_argument("title", help="Task title")
 
     # List tasks
     list_parser = subparsers.add_parser("list", help="List all tasks")
-    list_parser.add_argument("--all",
-                             action="store_true",
-                             help="Include completed tasks")
+    list_parser.add_argument(
+        "--all", action="store_true", help="Include completed tasks"
+    )
 
     # Generate report
     subparsers.add_parser("report", help="Generate a report")
