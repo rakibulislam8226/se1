@@ -1,7 +1,11 @@
+import redis
+
+
 class Storage:
 
     def __init__(self):
-        self.tasks = []
+        """Initialization redis database as persistent storage"""
+        self.database = redis.Redis(host="localhost", port=6379, db=0)
 
     def save_task(self, task):
         self.tasks.append(task)
