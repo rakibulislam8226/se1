@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, timedelta
 
 
 class Task:
@@ -44,13 +44,35 @@ class TaskManager:
 
     def generate_report(self):
         tasks = self.storage.get_all_tasks()
-        total_tasks = len(tasks)
-        completed_tasks = len([task for task in tasks if task.completed])
+        count_total_tasks = len(tasks)
+        complete_tasks = [task for task in tasks if task.completed]
+        count_completed_tasks = len(complete_tasks)
+        completed_tasks_taken_time = timedelta()
+
+        for task in complete_tasks:
+            if isinstance(task.completed_at, str) and isinstance(task.created_at, str):
+                try:
+                    completed_at = datetime.fromisoformat(task.completed_at)
+                    created_at = datetime.fromisoformat(task.created_at)
+                    time_taken = completed_at - created_at
+                    completed_tasks_taken_time += time_taken
+                except ValueError:
+                    continue
+
+        if count_completed_tasks > 0:
+            average_time = completed_tasks_taken_time / count_completed_tasks
+        else:
+            average_time = timedelta()
+
+        average_seconds = average_time.total_seconds()
+        average_hours, remainder = divmod(average_seconds, 3600)
+        average_minutes, average_seconds = divmod(remainder, 60)
 
         report = {
-            "total": total_tasks,
-            "completed": completed_tasks,
-            "pending": total_tasks - completed_tasks,
+            "total": count_total_tasks,
+            "completed": count_completed_tasks,
+            "pending": count_total_tasks - count_completed_tasks,
+            "average completed time": f"{int(average_hours)}h {int(average_minutes)}m {int(average_seconds)}s",
         }
 
         return report
